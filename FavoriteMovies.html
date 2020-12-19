@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- this is the tile of the page that shows up in the tabs-->
+    <title>Favorite Movies</title>
+
+    <!-- this is my css stuff -->
+    <style>
+        .selected {
+            text-decoration: line-through;
+            font-style: italic;
+            color:navy;
+        }
+        
+        input {
+          width: 100%;
+          padding: 5px;
+          margin: 5px 5px 5px 0px;
+          box-sizing: border-box;
+
+      }
+      
+      html {
+          background-color:grey;
+      }
+      #header {
+          border-bottom-style: solid;
+          border-color: black;
+          border-width: 10px;
+          background-color:mediumturquoise;
+      }
+
+      #movie-name-label {
+          font-size: 25px;
+          font-weight: bold;
+      }
+
+      #movie-name {
+          font-size: 18px;
+          font-weight: bold;
+      }
+
+      button {
+          font-size: 20px;
+          background-color:lightcyan;
+          color:black;
+      }
+
+      #list {
+          font-size: 25px;
+      }
+
+      #movie-list {
+          font-size: 35px;
+      }
+
+    </style>
+</head>
+<body>
+    <!-- Giant header asking what are favorite movies -->
+    <h1 id="header">What are your 10 favorite movies?</h1>
+
+    <!-- Asking the user what their movies are and creating the text box -->
+    <label id ="movie-name-label" for="movie-name">Enter your favorite movie:</label><input id="movie-name" name="movie-name">
+
+    <!-- button to submit one of your movies to the list -->
+    <button id="add-movie">Add Movie</button>
+
+    <h2>Here are your favorite movies:</h2>
+
+    <!-- list of current movies added, only 10 can be added -->
+    <p id="list">There are currently
+        <span id="movie-count">
+
+        </span>
+        movie(s) on your list
+    </p>
+
+    <ul id="movie-list"></ul>
+
+    <!-- button being able to remove specific movies -->
+    <button id="remove-selected-movies">Remove selected movies</button>
+
+    <script>
+        //connecting varaibles to the id's of variables up top
+        let movieCount = document.querySelector('#movie-count')
+        let counter = 0
+        movieCount.innerHTML = counter
+        let movieName = document.querySelector('#movie-name')
+        let addMovie = document.querySelector('#add-movie')
+        let addList = document.querySelector('#movie-list')
+        let removeMovies = document.querySelector('#remove-selected-movies')
+
+        //when you press the add movie button, it will add it to the list
+        addMovie.addEventListener('click', function() {
+            //check to see if user types anything in
+            if (movieName.value.length < 1) {
+                alert('You must type in a movie to add to your list')
+                return
+            }
+            if (movieCount.innerHTML > 9)
+            {
+                //only allows the user to type in ten movies
+                alert('You can only have ten favorite movies. SORRY :D')
+                return
+            }
+            else
+            {
+
+            if (movieName.value.length > 0)
+            {
+                let newMovie = movieName.value
+                let newAddMovieList = document.createElement('li')
+                newAddMovieList.innerHTML = ("Movie Name: " + newMovie)
+                addList.appendChild(newAddMovieList)
+                movieName.value = ""
+                counter = counter + 1
+                movieCount.innerHTML = counter
+
+                //toggles the clicked movie to be "selected"
+                newAddMovieList.addEventListener('click', function() {
+                    this.classList.toggle("selected")
+                })
+            }
+            }
+        })
+
+        //allows movies to be removed
+        removeMovies.addEventListener('click', function() {
+            let selectedMovies = document.querySelectorAll(".selected")
+            for (let i = 0; i < selectedMovies.length; i++)
+            {
+                selectedMovies[i].parentNode.removeChild(selectedMovies[i])
+                counter = counter - 1
+                movieCount.innerHTML = counter
+            }
+        })
+
+    </script>
+    
+</body>
+</html>
